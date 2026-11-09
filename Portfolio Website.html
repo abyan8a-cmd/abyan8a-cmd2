@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="id" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abyan Dennis Al Hafidz | Portfolio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Font: Inter & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#0B0F19',
+                        darkCard: '#111827',
+                        darkBorder: '#1F2937',
+                        neonBlue: '#3B82F6',
+                        brightBlue: '#60A5FA',
+                        deepBlue: '#1D4ED8',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Outfit', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        glow: '0 0 25px -5px rgba(59, 130, 246, 0.4)',
+                        glowStrong: '0 0 35px 0px rgba(59, 130, 246, 0.6)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0B0F19;
+            color: #F3F4F6;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Ambient Glow Backgrounds */
+        .ambient-glow {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Glassmorphism Cards */
+        .glass-card {
+            background: rgba(17, 24, 39, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(59, 130, 246, 0.15);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(96, 165, 250, 0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px -10px rgba(59, 130, 246, 0.3);
+        }
+
+        /* Glowing text gradient */
+        .text-gradient {
+            background: linear-gradient(135deg, #FFFFFF 0%, #93C5FD 50%, #3B82F6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .text-gradient-blue {
+            background: linear-gradient(135deg, #60A5FA 0%, #3B82F6 50%, #1D4ED8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Background grid pattern */
+        .bg-grid {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        }
+
+        /* Toast notification */
+        #toast {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-darkBg text-gray-200 antialiased relative selection:bg-blue-600 selection:text-white">
+
+    <!-- Ambient Glow FX -->
+    <div class="ambient-glow w-[500px] h-[500px] bg-blue-600/20 top-[-100px] left-[-100px]"></div>
+    <div class="ambient-glow w-[400px] h-[400px] bg-indigo-600/15 top-[40%] right-[-100px]"></div>
+    <div class="ambient-glow w-[600px] h-[600px] bg-blue-500/10 bottom-[-100px] left-[20%]"></div>
+
+    <!-- Background Grid -->
+    <div class="fixed inset-0 bg-grid pointer-events-none z-0"></div>
+
+    <!-- Navigation Bar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 backdrop-blur-md bg-darkBg/70 border-b border-gray-800/60">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Brand Logo -->
+                <a href="#hero" class="flex items-center gap-2 font-heading font-bold text-xl tracking-wider text-white group">
+                    <span class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-black group-hover:scale-105 transition-transform shadow-glow">A</span>
+                    <span>ABYAN<span class="text-neonBlue">.</span></span>
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8 text-sm font-medium">
+                    <a href="#about" class="text-gray-300 hover:text-brightBlue transition-colors">Tentang Saya</a>
+                    <a href="#skills" class="text-gray-300 hover:text-brightBlue transition-colors">Keahlian & Hobi</a>
+                    <a href="#gallery" class="text-gray-300 hover:text-brightBlue transition-colors">Galeri Karya</a>
+                    <a href="#contact" class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white shadow-glow hover:shadow-glowStrong transition-all">Kontak Saya</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden text-gray-300 hover:text-white focus:outline-none p-2" aria-label="Toggle Navigation">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-darkCard/95 border-b border-gray-800 px-4 pt-2 pb-6 space-y-3">
+            <a href="#about" class="block py-2 text-gray-300 hover:text-brightBlue">Tentang Saya</a>
+            <a href="#skills" class="block py-2 text-gray-300 hover:text-brightBlue">Keahlian & Hobi</a>
+            <a href="#gallery" class="block py-2 text-gray-300 hover:text-brightBlue">Galeri Karya</a>
+            <a href="#contact" class="block py-2 text-center rounded-lg bg-blue-600 text-white font-medium shadow-glow">Kontak Saya</a>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16 space-y-24 sm:space-y-32">
+
+        <!-- HERO SECTION -->
+        <section id="hero" class="min-h-[80vh] flex flex-col justify-center items-center text-center pt-8">
+            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-950/60 border border-blue-500/30 text-brightBlue text-xs sm:text-sm font-medium mb-6 animate-pulse">
+                <span class="w-2 h-2 rounded-full bg-brightBlue shadow-[0_0_8px_#60A5FA]"></span>
+                Teknisi Software & Digital Enthusiast
+            </div>
+
+            <h1 class="font-heading font-extrabold text-4xl sm:text-6xl md:text-7xl tracking-tight max-w-4xl leading-tight">
+                Halo, Saya <br class="hidden sm:inline" />
+                <span class="text-gradient">Abyan Dennis Al Hafidz</span>
+            </h1>
+
+            <p class="mt-6 text-gray-400 text-base sm:text-lg max-w-2xl font-light leading-relaxed">
+                Spesialis teknisi instalasi sistem operasi <span class="text-brightBlue font-medium">Windows 7 & 10</span>, pembelajar bahasa yang tekun, serta pengembang ide melalui karya seni digital dan seni rupa.
+            </p>
+
+            <!-- CTA Buttons -->
+            <div class="mt-8 flex flex-wrap justify-center gap-4">
+                <a href="https://wa.me/6285714416308" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white font-medium shadow-glow hover:shadow-glowStrong transition-all transform hover:-translate-y-0.5">
+                    <i class="fa-brands fa-whatsapp text-lg"></i>
+                    Hubungi WhatsApp
+                </a>
+                <a href="#gallery" class="flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-darkCard border border-blue-500/30 hover:border-blue-400 text-gray-200 font-medium transition-all hover:bg-darkCard/80">
+                    <i class="fa-solid fa-shapes text-brightBlue"></i>
+                    Lihat Portofolio
+                </a>
+            </div>
+
+            <!-- Quick Badges -->
+            <div class="mt-14 grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-3xl">
+                <div class="p-4 rounded-xl glass-card text-center">
+                    <i class="fa-brands fa-windows text-2xl text-brightBlue mb-2"></i>
+                    <h3 class="text-sm font-semibold text-gray-200">Windows OS</h3>
+                    <p class="text-xs text-gray-400 mt-1">Instalasi Win 7 & 10</p>
+                </div>
+                <div class="p-4 rounded-xl glass-card text-center">
+                    <i class="fa-solid fa-language text-2xl text-brightBlue mb-2"></i>
+                    <h3 class="text-sm font-semibold text-gray-200">Belajar Bahasa</h3>
+                    <p class="text-xs text-gray-400 mt-1">Hobi & Eksplorasi</p>
+                </div>
+                <div class="p-4 rounded-xl glass-card text-center">
+                    <i class="fa-solid fa-palette text-2xl text-brightBlue mb-2"></i>
+                    <h3 class="text-sm font-semibold text-gray-200">Menggambar</h3>
+                    <p class="text-xs text-gray-400 mt-1">Seni & Sketsa</p>
+                </div>
+                <div class="p-4 rounded-xl glass-card text-center">
+                    <i class="fa-solid fa-location-dot text-2xl text-brightBlue mb-2"></i>
+                    <h3 class="text-sm font-semibold text-gray-200">Lokasi</h3>
+                    <p class="text-xs text-gray-400 mt-1">Blitar, Jawa Timur</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT ME SECTION -->
+        <section id="about">
+            <div class="text-center mb-12">
+                <h2 class="font-heading text-3xl sm:text-4xl font-bold text-white">
+                    Tentang <span class="text-gradient-blue">Saya</span>
+                </h2>
+                <div class="w-16 h-1 bg-blue-600 mx-auto mt-3 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+                <!-- Avatar / Visual Card -->
+                <div class="md:col-span-5 flex justify-center">
+                    <div class="relative group">
+                        <div class="absolute -inset-1 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 blur opacity-40 group-hover:opacity-75 transition duration-500"></div>
+                        <div class="relative w-64 h-64 sm:w-80 sm:h-80 rounded-2xl bg-darkCard border border-blue-500/30 flex flex-col items-center justify-center p-6 text-center overflow-hidden">
+                            <div class="w-28 h-28 rounded-full bg-gradient-to-br from-blue-500 to-indigo-700 flex items-center justify-center mb-4 text-4xl font-extrabold text-white shadow-glow">
+                                AD
+                            </div>
+                            <h3 class="font-heading text-xl font-bold text-white">Abyan Dennis Al H.</h3>
+                            <p class="text-xs text-brightBlue mt-1 font-medium">Software Technician & Creator</p>
+                            <span class="mt-4 px-3 py-1 rounded-md bg-blue-950/80 text-blue-300 text-xs border border-blue-800/50">
+                                <i class="fa-solid fa-check-circle mr-1 text-brightBlue"></i> Siap Melayani Jasa Install
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Info Cards -->
+                <div class="md:col-span-7 space-y-4">
+                    <div class="glass-card p-6 rounded-2xl">
+                        <h3 class="font-heading text-lg font-bold text-white mb-2 flex items-center gap-2">
+                            <i class="fa-solid fa-user-gear text-brightBlue"></i> Profil Singkat
+                        </h3>
+                        <p class="text-gray-300 text-sm leading-relaxed">
+                            Saya adalah individu yang berdedikasi di bidang teknologi informasi, khususnya dalam penginstalan, konfigurasi, dan optimasi sistem operasi Windows 7 dan Windows 10. Selain berkecimpung di dunia teknikal komputer, saya memiliki passion mendalam dalam mempelajari bahasa asing dan menuangkan kreativitas melalui seni gambar.
+                        </p>
+                    </div>
+
+                    <div class="glass-card p-6 rounded-2xl">
+                        <h3 class="font-heading text-lg font-bold text-white mb-3 flex items-center gap-2">
+                            <i class="fa-solid fa-map-location-dot text-brightBlue"></i> Alamat Rumah
+                        </h3>
+                        <ul class="text-gray-300 text-sm space-y-2">
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-road text-brightBlue mt-1"></i>
+                                <span>Jalan Cupit Urang, RT 04 / RW 03</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-building-flag text-brightBlue mt-1"></i>
+                                <span>Desa Bendo, Kecamatan Ponggok</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-city text-brightBlue mt-1"></i>
+                                <span>Kabupaten Blitar, Jawa Timur</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SKILLS & HOBBIES SECTION -->
+        <section id="skills">
+            <div class="text-center mb-12">
+                <h2 class="font-heading text-3xl sm:text-4xl font-bold text-white">
+                    Keahlian & <span class="text-gradient-blue">Hobi</span>
+                </h2>
+                <p class="text-gray-400 text-sm mt-2">Kombinasi antara keahlian teknis dan minat kreatif</p>
+                <div class="w-16 h-1 bg-blue-600 mx-auto mt-3 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Skill Card -->
+                <div class="glass-card p-6 sm:p-8 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-blue-600/20 border border-blue-500/40 flex items-center justify-center text-brightBlue text-2xl mb-4">
+                            <i class="fa-solid fa-desktop"></i>
+                        </div>
+                        <h3 class="font-heading text-xl font-bold text-white mb-2">Instalasi Software Windows</h3>
+                        <p class="text-gray-300 text-sm mb-6 leading-relaxed">
+                            Pengalaman dan keahlian mendalam dalam pemasangan ulang, aktivasi legal, instalasi driver hardware, serta pengoptimalan kinerja untuk sistem operasi:
+                        </p>
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between text-xs font-semibold mb-1">
+                                    <span class="text-gray-200">Windows 10 Setup & Driver Config</span>
+                                    <span class="text-brightBlue">95%</span>
+                                </div>
+                                <div class="w-full h-2 rounded-full bg-gray-800 overflow-hidden">
+                                    <div class="h-full bg-gradient-to-r from-blue-600 to-brightBlue rounded-full w-[95%]"></div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between text-xs font-semibold mb-1">
+                                    <span class="text-gray-200">Windows 7 Maintenance & Legacy Setup</span>
+                                    <span class="text-brightBlue">90%</span>
+                                </div>
+                                <div class="w-full h-2 rounded-full bg-gray-800 overflow-hidden">
+                                    <div class="h-full bg-gradient-to-r from-blue-600 to-brightBlue rounded-full w-[90%]"></div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between text-xs font-semibold mb-1">
+                                    <span class="text-gray-200">Software Utilities & Application Bundle</span>
+                                    <span class="text-brightBlue">92%</span>
+                                </div>
+                                <div class="w-full h-2 rounded-full bg-gray-800 overflow-hidden">
+                                    <div class="h-full bg-gradient-to-r from-blue-600 to-brightBlue rounded-full w-[92%]"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 pt-4 border-t border-gray-800 flex flex-wrap gap-2">
+                        <span class="px-2.5 py-1 rounded-md bg-blue-950/80 text-blue-300 text-xs border border-blue-800/50">Clean Install</span>
+                        <span class="px-2.5 py-1 rounded-md bg-blue-950/80 text-blue-300 text-xs border border-blue-800/50">Driver Pack</span>
+                        <span class="px-2.5 py-1 rounded-md bg-blue-950/80 text-blue-300 text-xs border border-blue-800/50">Office & Tools</span>
+                        <span class="px-2.5 py-1 rounded-md bg-blue-950/80 text-blue-300 text-xs border border-blue-800/50">Troubleshooting</span>
+                    </div>
+                </div>
+
+                <!-- Hobbies Card -->
+                <div class="glass-card p-6 sm:p-8 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-indigo-600/20 border border-indigo-500/40 flex items-center justify-center text-indigo-400 text-2xl mb-4">
+                            <i class="fa-solid fa-heart"></i>
+                        </div>
+                        <h3 class="font-heading text-xl font-bold text-white mb-2">Hobi & Minat Spesial</h3>
+                        <p class="text-gray-300 text-sm mb-6 leading-relaxed">
+                            Aktivitas yang saya tekuni di waktu luang untuk mengasah pemikiran kritis serta kreativitas visual.
+                        </p>
+
+                        <div class="space-y-4">
+                            <div class="p-4 rounded-xl bg-darkCard/60 border border-gray-800">
+                                <div class="flex items-center gap-3 mb-2">
+                                    <i class="fa-solid fa-language text-brightBlue text-xl"></i>
+                                    <h4 class="font-semibold text-white text-sm">Belajar Bahasa</h4>
+                                </div>
+                                <p class="text-xs text-gray-400 leading-normal">
+                                    Tertarik mempelajari kosakata baru, tata bahasa asing, serta meningkatkan kemampuan komunikasi lintas budaya secara otodidak.
+                                </p>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-darkCard/60 border border-gray-800">
+                                <div class="flex items-center gap-3 mb-2">
+                                    <i class="fa-solid fa-pen-nib text-brightBlue text-xl"></i>
+                                    <h4 class="font-semibold text-white text-sm">Menggambar & Seni Visual</h4>
+                                </div>
+                                <p class="text-xs text-gray-400 leading-normal">
+                                    Menyalurkan imajinasi ke dalam bentuk gambar, sketsa karakter, maupun ilustrasi visual kreatif dengan kejelian pada detail.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 pt-4 border-t border-gray-800 flex flex-wrap gap-2">
+                        <span class="px-2.5 py-1 rounded-md bg-indigo-950/80 text-indigo-300 text-xs border border-indigo-800/50">Autodidact</span>
+                        <span class="px-2.5 py-1 rounded-md bg-indigo-950/80 text-indigo-300 text-xs border border-indigo-800/50">Creative Art</span>
+                        <span class="px-2.5 py-1 rounded-md bg-indigo-950/80 text-indigo-300 text-xs border border-indigo-800/50">Linguistics</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- GALLERY SECTION -->
+        <section id="gallery">
+            <div class="text-center mb-8">
+                <h2 class="font-heading text-3xl sm:text-4xl font-bold text-white">
+                    Galeri <span class="text-gradient-blue">Karya & Aktivitas</span>
+                </h2>
+                <p class="text-gray-400 text-sm mt-2">Dokumentasi keahlian instalasi software dan hasil karya seni</p>
+                <div class="w-16 h-1 bg-blue-600 mx-auto mt-3 rounded-full"></div>
+            </div>
+
+            <!-- Filter Buttons -->
+            <div class="flex justify-center gap-2 mb-10 flex-wrap">
+                <button class="gallery-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-medium bg-blue-600 text-white shadow-glow transition-all" data-filter="all">Semua</button>
+                <button class="gallery-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-medium bg-darkCard text-gray-400 border border-gray-800 hover:text-white hover:border-blue-500/30 transition-all" data-filter="windows">Instalasi Windows</button>
+                <button class="gallery-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-medium bg-darkCard text-gray-400 border border-gray-800 hover:text-white hover:border-blue-500/30 transition-all" data-filter="drawing">Hasil Gambar</button>
+                <button class="gallery-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-medium bg-darkCard text-gray-400 border border-gray-800 hover:text-white hover:border-blue-500/30 transition-all" data-filter="language">Belajar Bahasa</button>
+            </div>
+
+            <!-- Gallery Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="gallery-grid">
+
+                <!-- Item 1: Windows 10 Installation -->
+                <div class="gallery-item glass-card rounded-2xl overflow-hidden group cursor-pointer" data-category="windows" onclick="openModal('Instalasi Windows 10 Pro', 'Proses install ulang Windows 10 beserta instalasi driver lengkap dan optimasi sistem.', 'windows10')">
+                    <div class="h-48 bg-gradient-to-br from-blue-900/60 to-darkCard relative overflow-hidden flex items-center justify-center p-6 border-b border-gray-800">
+                        <svg class="w-24 h-24 text-brightBlue opacity-80 group-hover:scale-110 transition-transform duration-500" viewBox="0 0 88 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0 12.402L35.986 7.467V41.724H0V12.402ZM35.986 46.12L0 46.046V80.598L35.986 75.605V46.12ZM39.992 6.917L87.971 0V41.724H39.992V6.917ZM87.971 46.12L39.992 46.204V75.056L87.971 81.973V46.12Z" fill="currentColor"/>
+                        </svg>
+                        <div class="absolute top-3 right-3 px-2 py-1 bg-blue-900/80 text-blue-300 text-[10px] rounded border border-blue-500/30 font-medium">Software</div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-heading text-lg font-bold text-white group-hover:text-brightBlue transition-colors">Windows 10 Setup & Driver</h3>
+                        <p class="text-xs text-gray-400 mt-1">Pemasangan OS Windows 10, optimasi startup, dan penataan driver.</p>
+                    </div>
+                </div>
+
+                <!-- Item 2: Windows 7 Installation -->
+                <div class="gallery-item glass-card rounded-2xl overflow-hidden group cursor-pointer" data-category="windows" onclick="openModal('Instalasi Windows 7 Legacy', 'Layanan pemasangan Windows 7 untuk PC/Laptop spesifikasi standar agar berjalan ringan dan stabil.', 'windows7')">
+                    <div class="h-48 bg-gradient-to-br from-blue-950 to-indigo-950 relative overflow-hidden flex items-center justify-center p-6 border-b border-gray-800">
+                        <i class="fa-brands fa-windows text-6xl text-blue-400/80 group-hover:scale-110 transition-transform duration-500"></i>
+                        <div class="absolute top-3 right-3 px-2 py-1 bg-blue-900/80 text-blue-300 text-[10px] rounded border border-blue-500/30 font-medium">Software</div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-heading text-lg font-bold text-white group-hover:text-brightBlue transition-colors">Windows 7 Installation</h3>
+                        <p class="text-xs text-gray-400 mt-1">Install Windows 7 ringan, bersih dari bloatware, beserta aplikasi dasar lengkap.</p>
+                    </div>
+                </div>
+
+                <!-- Item 3: Drawing Artwork -->
+                <div class="gallery-item glass-card rounded-2xl overflow-hidden group cursor-pointer" data-category="drawing" onclick="openModal('Sketsa & Gambar Digital Art', 'Koleksi hasil seni menggambar karakter dan ilustrasi visual buatan tangan.', 'drawing1')">
+                    <div class="h-48 bg-gradient-to-br from-purple-900/40 to-blue-950 relative overflow-hidden flex items-center justify-center p-6 border-b border-gray-800">
+                        <i class="fa-solid fa-paintbrush text-6xl text-purple-400/80 group-hover:scale-110 transition-transform duration-500"></i>
+                        <div class="absolute top-3 right-3 px-2 py-1 bg-purple-900/80 text-purple-300 text-[10px] rounded border border-purple-500/30 font-medium">Hobi Gambar</div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-heading text-lg font-bold text-white group-hover:text-brightBlue transition-colors">Ilustrasi & Artwork</h3>
+                        <p class="text-xs text-gray-400 mt-1">Karya seni sketsa gambar kreatif dengan ketelitian tinggi.</p>
+                    </div>
+                </div>
+
+                <!-- Item 4: Language Learning -->
+                <div class="gallery-item glass-card rounded-2xl overflow-hidden group cursor-pointer" data-category="language" onclick="openModal('Catatan & Studi Bahasa', 'Ringkasan pembelajaran kosakata dan tata bahasa asing yang rutin dipelajari.', 'lang1')">
+                    <div class="h-48 bg-gradient-to-br from-sky-900/40 to-darkCard relative overflow-hidden flex items-center justify-center p-6 border-b border-gray-800">
+                        <i class="fa-solid fa-book-open-reader text-6xl text-sky-400/80 group-hover:scale-110 transition-transform duration-500"></i>
+                        <div class="absolute top-3 right-3 px-2 py-1 bg-sky-900/80 text-sky-300 text-[10px] rounded border border-sky-500/30 font-medium">Studi Bahasa</div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-heading text-lg font-bold text-white group-hover:text-brightBlue transition-colors">Belajar Bahasa Asing</h3>
+                        <p class="text-xs text-gray-400 mt-1">Pendokumentasian kosakata dan eksplorasi tata bahasa baru.</p>
+                    </div>
+                </div>
+
+                <!-- Item 5: Software Utilities -->
+                <div class="gallery-item glass-card rounded-2xl overflow-hidden group cursor-pointer" data-category="windows" onclick="openModal('Paket Software Essensial', 'Instalasi lengkap Microsoft Office, Browser, PDF Reader, & Anti Virus.', 'utilities')">
+                    <div class="h-48 bg-gradient-to-br from-blue-900/30 to-indigo-900/30 relative overflow-hidden flex items-center justify-center p-6 border-b border-gray-800">
+                        <i class="fa-solid fa-box-archive text-6xl text-brightBlue/80 group-hover:scale-110 transition-transform duration-500"></i>
+                        <div class="absolute top-3 right-3 px-2 py-1 bg-blue-900/80 text-blue-300 text-[10px] rounded border border-blue-500/30 font-medium">Software</div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-heading text-lg font-bold text-white group-hover:text-brightBlue transition-colors">Paket Aplikasi Komputer</h3>
+                        <p class="text-xs text-gray-400 mt-1">Pemasangan aplikasi kerja harian terlengkap pasca install ulang OS.</p>
+                    </div>
+                </div>
+
+                <!-- Item 6: Character Design Drawing -->
+                <div class="gallery-item glass-card rounded-2xl overflow-hidden group cursor-pointer" data-category="drawing" onclick="openModal('Karakter & Desain Visual', 'Eksplorasi garis, bayangan, dan proporsi bentuk visual karya seni.', 'drawing2')">
+                    <div class="h-48 bg-gradient-to-br from-indigo-900/40 to-blue-900/20 relative overflow-hidden flex items-center justify-center p-6 border-b border-gray-800">
+                        <i class="fa-solid fa-pen-ruler text-6xl text-indigo-400/80 group-hover:scale-110 transition-transform duration-500"></i>
+                        <div class="absolute top-3 right-3 px-2 py-1 bg-indigo-900/80 text-indigo-300 text-[10px] rounded border border-indigo-500/30 font-medium">Hobi Gambar</div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-heading text-lg font-bold text-white group-hover:text-brightBlue transition-colors">Sketsa Karakter</h3>
+                        <p class="text-xs text-gray-400 mt-1">Visualisasi konsep gambar unik yang menarik dan mendetail.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- CONTACT SECTION -->
+        <section id="contact">
+            <div class="text-center mb-12">
+                <h2 class="font-heading text-3xl sm:text-4xl font-bold text-white">
+                    Hubungi <span class="text-gradient-blue">Saya</span>
+                </h2>
+                <p class="text-gray-400 text-sm mt-2">Ingin menggunakan jasa install Windows atau berdiskusi? Mari terhubung!</p>
+                <div class="w-16 h-1 bg-blue-600 mx-auto mt-3 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+                <!-- Direct Contact Details -->
+                <div class="md:col-span-5 space-y-4">
+                    <!-- WhatsApp Card -->
+                    <div class="glass-card p-6 rounded-2xl flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-emerald-600/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 text-2xl">
+                                <i class="fa-brands fa-whatsapp"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xs text-gray-400 uppercase font-semibold">WhatsApp / HP</h4>
+                                <p class="text-white font-medium text-sm mt-0.5">085714416308</p>
+                            </div>
+                        </div>
+                        <button onclick="copyToClipboard('085714416308')" class="px-3 py-1.5 rounded-lg bg-darkCard border border-gray-700 hover:border-blue-500 text-xs text-gray-300 hover:text-white transition-all">
+                            <i class="fa-regular fa-copy"></i> Copy
+                        </button>
+                    </div>
+
+                    <!-- Email Card -->
+                    <div class="glass-card p-6 rounded-2xl flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-blue-600/20 border border-blue-500/40 flex items-center justify-center text-brightBlue text-2xl">
+                                <i class="fa-regular fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xs text-gray-400 uppercase font-semibold">Email Utama</h4>
+                                <p class="text-white font-medium text-sm mt-0.5">abyan8a@gmail.com</p>
+                            </div>
+                        </div>
+                        <button onclick="copyToClipboard('abyan8a@gmail.com')" class="px-3 py-1.5 rounded-lg bg-darkCard border border-gray-700 hover:border-blue-500 text-xs text-gray-300 hover:text-white transition-all">
+                            <i class="fa-regular fa-copy"></i> Copy
+                        </button>
+                    </div>
+
+                    <!-- Location Summary Card -->
+                    <div class="glass-card p-6 rounded-2xl">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-indigo-600/20 border border-indigo-500/40 flex items-center justify-center text-indigo-400 text-2xl">
+                                <i class="fa-solid fa-house-user"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xs text-gray-400 uppercase font-semibold">Lokasi Domisili</h4>
+                                <p class="text-white font-medium text-sm mt-0.5">Ponggok, Kabupaten Blitar</p>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-400 mt-3 pt-3 border-t border-gray-800">
+                            Jl. Cupit Urang, RT 04 / RW 03, Desa Bendo, Kec. Ponggok, Kab. Blitar
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Interactive Contact Form -->
+                <div class="md:col-span-7">
+                    <form id="contact-form" class="glass-card p-6 sm:p-8 rounded-2xl space-y-4">
+                        <h3 class="font-heading text-lg font-bold text-white mb-2">Kirim Pesan Langsung</h3>
+                        
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-300 mb-1">Nama Lengkap</label>
+                            <input type="text" required placeholder="Masukkan nama Anda" class="w-full px-4 py-3 rounded-xl bg-darkCard border border-gray-800 focus:border-blue-500 focus:outline-none text-white text-sm transition-all">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-300 mb-1">Kontak Anda (Email / No. HP)</label>
+                            <input type="text" required placeholder="Contoh: 08123456789 atau email@domain.com" class="w-full px-4 py-3 rounded-xl bg-darkCard border border-gray-800 focus:border-blue-500 focus:outline-none text-white text-sm transition-all">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-300 mb-1">Pesan / Keperluan</label>
+                            <textarea rows="4" required placeholder="Tuliskan keperluan Anda (misal: Jasa Install Windows 10, Tanya Jawab, dll.)" class="w-full px-4 py-3 rounded-xl bg-darkCard border border-gray-800 focus:border-blue-500 focus:outline-none text-white text-sm transition-all"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-medium shadow-glow transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-paper-plane"></i> Kirim Pesan via WhatsApp
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="relative z-10 border-t border-gray-800/80 bg-darkBg/90 py-8 text-center text-xs text-gray-400">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+                <p>&copy; <span id="year"></span> <span class="text-white font-semibold">Abyan Dennis Al Hafidz</span>. All rights reserved.</p>
+            </div>
+            <div class="flex items-center gap-4 text-gray-400 text-sm">
+                <a href="https://wa.me/6285714416308" target="_blank" class="hover:text-brightBlue"><i class="fa-brands fa-whatsapp"></i></a>
+                <a href="mailto:abyan8a@gmail.com" class="hover:text-brightBlue"><i class="fa-regular fa-envelope"></i></a>
+                <a href="https://github.com/abyan8a" target="_blank" class="hover:text-brightBlue"><i class="fa-brands fa-github"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL PREVIEW FOR GALLERY -->
+    <div id="gallery-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="glass-card rounded-2xl max-w-lg w-full p-6 relative">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white p-2">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+            
+            <div id="modal-icon" class="w-20 h-20 rounded-2xl bg-blue-600/20 border border-blue-500/40 flex items-center justify-center text-brightBlue text-4xl mb-4 mx-auto">
+                <i class="fa-solid fa-image"></i>
+            </div>
+
+            <h3 id="modal-title" class="font-heading text-xl font-bold text-white text-center">Judul Modal</h3>
+            <p id="modal-desc" class="text-sm text-gray-300 text-center mt-2 leading-relaxed">Deskripsi item galeri...</p>
+            
+            <div class="mt-6 flex justify-center">
+                <button onclick="closeModal()" class="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium">Tutup Preview</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 bg-blue-600 text-white px-4 py-3 rounded-xl shadow-glow opacity-0 pointer-events-none transform translate-y-2 flex items-center gap-2 text-sm font-medium">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toast-message">Teks berhasil disalin!</span>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Set dynamic current year in footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Mobile Navbar Toggle
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu on link click
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Toast Notification System
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toast-message');
+            toastMessage.textContent = message;
+            
+            toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-2');
+            toast.classList.add('opacity-100', 'translate-y-0');
+
+            setTimeout(() => {
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-2');
+            }, 3000);
+        }
+
+        // Copy Text Function
+        function copyToClipboard(text) {
+            const input = document.createElement('input');
+            input.value = text;
+            document.body.appendChild(input);
+            input.select();
+            document.execCommand('copy');
+            document.body.removeChild(input);
+            showToast(`Berhasil menyalin: ${text}`);
+        }
+
+        // Gallery Filter Logic
+        const filterBtns = document.querySelectorAll('.gallery-filter-btn');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update active state
+                filterBtns.forEach(b => {
+                    b.classList.remove('bg-blue-600', 'text-white', 'shadow-glow');
+                    b.classList.add('bg-darkCard', 'text-gray-400');
+                });
+                btn.classList.remove('bg-darkCard', 'text-gray-400');
+                btn.classList.add('bg-blue-600', 'text-white', 'shadow-glow');
+
+                const filter = btn.getAttribute('data-filter');
+
+                galleryItems.forEach(item => {
+                    if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Gallery Modal Logic
+        const modal = document.getElementById('gallery-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalDesc = document.getElementById('modal-desc');
+        const modalIcon = document.getElementById('modal-icon');
+
+        const iconsMap = {
+            'windows10': '<i class="fa-brands fa-windows text-blue-400"></i>',
+            'windows7': '<i class="fa-brands fa-windows text-indigo-400"></i>',
+            'drawing1': '<i class="fa-solid fa-paintbrush text-purple-400"></i>',
+            'drawing2': '<i class="fa-solid fa-pen-ruler text-purple-400"></i>',
+            'lang1': '<i class="fa-solid fa-book-open-reader text-sky-400"></i>',
+            'utilities': '<i class="fa-solid fa-box-archive text-brightBlue"></i>'
+        };
+
+        function openModal(title, description, iconKey) {
+            modalTitle.textContent = title;
+            modalDesc.textContent = description;
+            modalIcon.innerHTML = iconsMap[iconKey] || '<i class="fa-solid fa-image"></i>';
+            modal.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+        }
+
+        // Close Modal when clicking background
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Contact Form Handler
+        document.getElementById('contact-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const inputs = e.target.querySelectorAll('input, textarea');
+            const name = inputs[0].value;
+            const contact = inputs[1].value;
+            const message = inputs[2].value;
+
+            const waText = `Halo Abyan, saya ${name} (${contact}).%0A%0APesan: ${message}`;
+            window.open(`https://wa.me/6285714416308?text=${waText}`, '_blank');
+        });
+    </script>
+</body>
+</html>
